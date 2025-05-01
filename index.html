@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Editor</title>
+</head>
+<body>
+    <h1>Chỉnh sửa ảnh</h1>
+    
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Tải ảnh lên</button>
+    </form>
+
+    {% if image_url %}
+        <h3>Ảnh đã chỉnh sửa:</h3>
+        <img src="{{ image_url }}" alt="Edited Image" width="300">
+    {% endif %}
+
+    <h3>Chức năng chỉnh sửa:</h3>
+    <form action="/perform_action" method="POST">
+        <button type="submit" name="action" value="bw">Chuyển trắng đen</button>
+        <button type="submit" name="action" value="blur">Làm mờ</button>
+        <button type="submit" name="action" value="flip_h">Lật ngang</button>
+        <button type="submit" name="action" value="flip_v">Lật dọc</button>
+        <button type="submit" name="action" value="vintage">Bộ lọc vintage</button>
+        <button type="submit" name="action" value="cool">Bộ lọc lạnh</button>
+        <button type="submit" name="action" value="warm">Bộ lọc ấm</button>
+        <button type="submit" name="action" value="brighten">Tăng sáng</button>
+        <button type="submit" name="action" value="contrast">Tăng tương phản</button>
+        <button type="submit" name="action" value="sharpen">Làm nét</button>
+        <button type="submit" name="action" value="rotate">Xoay 90°</button>
+        <button type="submit" name="action" value="crop">Cắt ảnh</button>
+
+        <!-- Thêm phần chọn kênh RGB -->
+        <label for="channel">Chọn kênh màu để tách:</label>
+        <select name="channel" id="channel">
+            <option value="R">Kênh R (Đỏ)</option>
+            <option value="G">Kênh G (Xanh lá)</option>
+            <option value="B">Kênh B (Xanh dương)</option>
+        </select>
+        <button type="submit" name="action" value="split_rgb">Tách kênh RGB</button>
+    </form>
+
+    <h3>Quay lại thao tác trước:</h3>
+    <form action="/undo" method="POST">
+        <button type="submit">Quay lại</button>
+    </form>
+
+    <h3>Tải ảnh đã chỉnh sửa:</h3>
+    <a href="{{ url_for('download_image') }}">Tải về</a>
+</body>
+</html>
